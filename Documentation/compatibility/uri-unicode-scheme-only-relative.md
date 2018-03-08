@@ -18,15 +18,15 @@ The simplest reproduction of the NRE is below, with the two statements being equ
 bool success = Uri.TryCreate("http:%C3%A8", UriKind.RelativeOrAbsolute, out Uri href);
 bool success = Uri.TryCreate("http:è", UriKind.RelativeOrAbsolute, out Uri href);
  ```
-To reproduce the issue the two following items must be true:
-- The URI must be specified as relative by prepending it with ‘http:’ but no ‘//’.
-- The URI must contain percent encoded Unicode or unreserved symbols.
+To reproduce the NullReferenceException the two following items must be true:
+- The URI must be specified as relative by prepending it with ‘http:’ and not followed by ‘//’.
+- The URI must contain percent-encoded Unicode or unreserved symbols.
 
-- [ ] Quirked // Uses some mechanism to turn the feature on or off, usually using runtime targeting, AppContext or config files. Needs to be turned on automatically for some situations.
-- [ ] Build-time break // Causes a break if attempted to recompile
+- [ ] Quirked
+- [ ] Build-time break
 
 ### Recommended Action
-Users depending on this behavior to disallow relative URIs should instead specify `T:System.UriKind.Absolute`.
+Users depending on this behavior to disallow relative URIs should instead specify `T:System.UriKind.Absolute` when creating a URI.
 
 ### Affected APIs
 * `T:System.Uri.TryCreate`
